@@ -12,33 +12,37 @@
         :root {
             --primary: #007AFF;
             --primary-dark: #0062CC;
+            --primary-light: rgba(0, 122, 255, 0.1);
             --background: #F5F7FA;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.92);
             --text: #1D1D1F;
             --text-secondary: #86868B;
-            --border: rgba(0, 0, 0, 0.1);
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-            --glass-effect: rgba(255, 255, 255, 0.7);
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            --glass-effect: rgba(255, 255, 255, 0.85);
             --success: #34C759;
             --warning: #FF9500;
             --danger: #FF3B30;
             --gradient-start: #007AFF;
             --gradient-end: #00C6FF;
-            --widget-bg: rgba(255, 255, 255, 0.6);
+            --widget-bg: rgba(255, 255, 255, 0.75);
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --blur-amount: 20px;
+            --border-radius: 24px;
         }
 
         .dark-mode {
             --primary: #0A84FF;
             --primary-dark: #0062CC;
+            --primary-light: rgba(10, 132, 255, 0.15);
             --background: #121212;
-            --card-bg: rgba(28, 28, 30, 0.8);
+            --card-bg: rgba(28, 28, 30, 0.85);
             --text: #F5F5F7;
-            --text-secondary: #86868B;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            --glass-effect: rgba(44, 44, 46, 0.7);
-            --widget-bg: rgba(44, 44, 46, 0.6);
+            --text-secondary: #8E8E93;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            --glass-effect: rgba(44, 44, 46, 0.8);
+            --widget-bg: rgba(44, 44, 46, 0.7);
             --gradient-start: #0A84FF;
             --gradient-end: #00C6FF;
         }
@@ -57,6 +61,7 @@
             transition: var(--transition);
             overflow-x: hidden;
             position: relative;
+            line-height: 1.6;
         }
 
         body::before {
@@ -67,7 +72,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            opacity: 0.03;
+            opacity: 0.04;
             z-index: -1;
         }
 
@@ -80,8 +85,8 @@
             position: sticky;
             top: 0;
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
             z-index: 100;
             border-bottom: 1px solid var(--border);
             box-shadow: var(--shadow);
@@ -98,6 +103,11 @@
 
         .logo i {
             font-size: 24px;
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
         }
 
         .controls {
@@ -124,7 +134,7 @@
         }
 
         .btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.1);
             background: var(--primary);
             color: white;
             border-color: var(--primary);
@@ -146,10 +156,10 @@
 
         .card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: var(--border-radius);
             padding: 20px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
             transition: var(--transition);
@@ -159,7 +169,7 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .card::before {
@@ -223,6 +233,7 @@
             color: white;
             position: relative;
             overflow: hidden;
+            animation: cardAppear 0.8s ease-out;
         }
 
         .current-weather::before {
@@ -295,12 +306,14 @@
             font-size: 80px;
             font-weight: 700;
             line-height: 1;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .weather-icon {
             font-size: 80px;
             color: rgba(255, 255, 255, 0.9);
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+            animation: float 6s ease-in-out infinite;
         }
 
         .weather-details {
@@ -318,6 +331,14 @@
             background: rgba(255, 255, 255, 0.15);
             border-radius: 16px;
             text-align: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .detail-item:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .detail-item i {
@@ -339,6 +360,9 @@
         /* Hourly Forecast */
         .hourly-forecast {
             grid-column: span 2;
+            animation: cardAppear 0.8s ease-out 0.1s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .hourly-list {
@@ -375,6 +399,7 @@
         .hour-item:hover {
             transform: translateY(-5px);
             background: var(--card-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .hour-item .time {
@@ -397,6 +422,9 @@
         /* Daily Forecast */
         .daily-forecast {
             grid-column: span 2;
+            animation: cardAppear 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         .daily-list {
@@ -421,6 +449,7 @@
         .day-item:hover {
             transform: translateX(5px);
             background: var(--card-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .day-item .day {
@@ -457,13 +486,16 @@
             min-height: 350px;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
+            border-radius: var(--border-radius);
+            animation: cardAppear 0.8s ease-out 0.3s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         #map {
             width: 100%;
             height: 100%;
-            border-radius: 20px;
+            border-radius: var(--border-radius);
             z-index: 1;
         }
 
@@ -489,6 +521,12 @@
         }
 
         /* Saved Locations */
+        .saved-locations {
+            animation: cardAppear 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
         .saved-locations .locations-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -511,6 +549,7 @@
         .location-card:hover {
             transform: translateY(-5px);
             background: var(--card-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .location-card .header {
@@ -565,7 +604,7 @@
 
         .add-location input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
 
         .add-location button {
@@ -592,6 +631,13 @@
             color: var(--text-secondary);
             font-size: 13px;
             margin-top: 30px;
+        }
+
+        /* Widgets */
+        .widget {
+            animation: cardAppear 0.8s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         /* Responsive */
@@ -632,6 +678,12 @@
             .weather-icon {
                 font-size: 70px;
             }
+            
+            .map-overlay {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -649,6 +701,10 @@
             
             .temperature {
                 font-size: 60px;
+            }
+            
+            .saved-locations .locations-list {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -718,6 +774,11 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
@@ -732,18 +793,99 @@
             to { opacity: 0; transform: scale(0.9); }
         }
 
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        
         .weather-icon {
             animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .search-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .search-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .search-modal.active .search-container {
+            transform: translateY(0);
+        }
+        
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+        
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .search-result-item {
+            padding: 12px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .search-result-item:hover {
+            background: var(--primary-light);
         }
     </style>
 </head>
@@ -757,8 +899,8 @@
             <button class="btn" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
-            <button class="btn" id="addLocationBtn">
-                <i class="fas fa-plus"></i>
+            <button class="btn" id="searchBtn">
+                <i class="fas fa-search"></i>
             </button>
             <button class="btn" id="refreshBtn">
                 <i class="fas fa-sync-alt"></i>
@@ -769,7 +911,7 @@
     <div class="container">
         <div class="dashboard">
             <!-- Current Weather -->
-            <div class="card current-weather fade-in" id="currentWeather">
+            <div class="card current-weather" id="currentWeather">
                 <div class="loading">
                     <div class="spinner"></div>
                     <p>Chargement des données météo...</p>
@@ -777,7 +919,7 @@
             </div>
             
             <!-- Hourly Forecast -->
-            <div class="card hourly-forecast fade-in delay-1" id="hourlyForecast">
+            <div class="card hourly-forecast" id="hourlyForecast">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-clock"></i>
@@ -791,7 +933,7 @@
             </div>
             
             <!-- Daily Forecast -->
-            <div class="card daily-forecast fade-in delay-2" id="dailyForecast">
+            <div class="card daily-forecast" id="dailyForecast">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-calendar-day"></i>
@@ -805,7 +947,7 @@
             </div>
             
             <!-- Weather Map -->
-            <div class="card weather-map fade-in delay-3" id="weatherMapCard">
+            <div class="card weather-map" id="weatherMapCard">
                 <div class="map-overlay">
                     <div class="card-title">
                         <i class="fas fa-map"></i>
@@ -821,7 +963,7 @@
             </div>
             
             <!-- Saved Locations -->
-            <div class="card saved-locations fade-in delay-4" id="savedLocations">
+            <div class="card saved-locations" id="savedLocations">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-bookmark"></i>
@@ -835,7 +977,7 @@
             </div>
             
             <!-- Air Quality -->
-            <div class="card fade-in delay-5" id="airQuality">
+            <div class="card widget" id="airQuality">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-wind"></i>
@@ -849,7 +991,7 @@
             </div>
             
             <!-- Sunrise & Sunset -->
-            <div class="card fade-in delay-5" id="sunTimes">
+            <div class="card widget" id="sunTimes">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-sun"></i>
@@ -860,6 +1002,25 @@
                     <div class="spinner"></div>
                     <p>Chargement des données...</p>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-container">
+            <div class="search-header">
+                <h3>Rechercher un lieu</h3>
+                <button class="btn" id="closeSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-input-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Entrez une ville...">
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Les résultats de recherche apparaîtront ici -->
             </div>
         </div>
     </div>
@@ -985,6 +1146,15 @@
         function updateMap(lat, lon) {
             if (map) {
                 map.setView([lat, lon], 10);
+                
+                // Supprimer les anciens marqueurs
+                map.eachLayer(layer => {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+                
+                // Ajouter un nouveau marqueur
                 L.marker([lat, lon]).addTo(map)
                     .bindPopup('Votre position actuelle')
                     .openPopup();
@@ -1434,6 +1604,58 @@
             
             // Bouton de couches de la carte
             document.getElementById('mapLayersBtn').addEventListener('click', toggleMapLayers);
+            
+            // Bouton de recherche
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                document.getElementById('searchModal').classList.add('active');
+            });
+            
+            // Fermeture de la recherche
+            document.getElementById('closeSearch').addEventListener('click', () => {
+                document.getElementById('searchModal').classList.remove('active');
+            });
+            
+            // Recherche de villes
+            document.getElementById('searchInput').addEventListener('input', async (e) => {
+                const query = e.target.value.trim();
+                if (query.length > 2) {
+                    try {
+                        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`);
+                        const data = await response.json();
+                        displaySearchResults(data);
+                    } catch (error) {
+                        console.error('Erreur lors de la recherche:', error);
+                    }
+                }
+            });
+        }
+        
+        // Afficher les résultats de recherche
+        function displaySearchResults(results) {
+            const container = document.getElementById('searchResults');
+            container.innerHTML = '';
+            
+            if (results.length === 0) {
+                container.innerHTML = '<div class="search-result-item">Aucun résultat trouvé</div>';
+                return;
+            }
+            
+            results.forEach(result => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.textContent = `${result.name}, ${result.country}`;
+                item.addEventListener('click', () => {
+                    currentLocation = {
+                        name: `${result.name}, ${result.country}`,
+                        lat: result.lat,
+                        lon: result.lon
+                    };
+                    getWeatherData(result.lat, result.lon);
+                    updateMap(result.lat, result.lon);
+                    document.getElementById('searchModal').classList.remove('active');
+                });
+                container.appendChild(item);
+            });
         }
 
         // Basculer entre les couches de carte
@@ -1453,8 +1675,13 @@
             errorDiv.style.borderRadius = '10px';
             errorDiv.style.margin = '20px';
             errorDiv.style.textAlign = 'center';
+            errorDiv.style.position = 'fixed';
+            errorDiv.style.bottom = '20px';
+            errorDiv.style.left = '50%';
+            errorDiv.style.transform = 'translateX(-50%)';
+            errorDiv.style.zIndex = '1000';
             
-            document.querySelector('.container').prepend(errorDiv);
+            document.body.appendChild(errorDiv);
             setTimeout(() => {
                 errorDiv.remove();
             }, 3000);
